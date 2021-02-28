@@ -1,0 +1,29 @@
+{
+    "name": "FastApi env",
+    "dockerComposeFile": [
+        "../docker-compose.yml",
+        "../docker-compose.override.yml",
+    ],
+    "service": "backend",
+    "workspaceFolder": "/app/",
+    "settings": {
+        "python.pythonPath": "/usr/local/bin/python",
+        "python.linting.enabled": true,
+        "python.linting.mypyEnabled": true,
+        "python.linting.flake8Path": "/usr/local/bin/flake8",
+        "python.linting.mypyPath": "/usr/local/bin/mypy",
+        "python.testing.pytestPath": "/usr/local/bin/pytest",
+        "python.analysis.typeCheckingMode": "basic"
+    },
+    "extensions": [
+        "coenraads.bracket-pair-colorizer",
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "alefragnani.bookmarks",
+        "irongeek.vscode-env",
+        "ecmel.vscode-html-css",
+        "kevinrose.vsc-python-indent",
+        "vscode-icons-team.vscode-icons",
+        "oderwat.indent-rainbow"
+    ]
+}
