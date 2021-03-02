@@ -25,7 +25,7 @@ class Settings(BaseSettings):
         raise ValueError(v)
 
     PROJECT_NAME: str
-    SENTRY_DSN: Optional[HttpUrl] = None
+    SENTRY_DSN: Optional[HttpUrl] = ""
 
     @validator("SENTRY_DSN", pre=True)
     def sentry_dsn_can_be_blank(cls, v: str) -> Optional[str]:
