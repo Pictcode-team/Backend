@@ -4,7 +4,7 @@
         "../docker-compose.yml",
         "../docker-compose.override.yml",
     ],
-    "service": "backend",
+    "service": "backend_api_gateway",
     "workspaceFolder": "/app/",
     "settings": {
         "python.pythonPath": "/usr/local/bin/python",
