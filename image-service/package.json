@@ -1,0 +1,18 @@
+{
+  "name": "pictcode-image-service",
+  "version": "1.0.0",
+  "description": "Retrieve or upload images from workspaces",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "@PictCode",
+  "license": "MIT",
+  "devDependencies": {
+    "standard": "^16.0.3"
+  },
+  "dependencies": {
+    "fastify": "^3.12.0",
+    "pg": "^8.5.1"
+  }
+}
