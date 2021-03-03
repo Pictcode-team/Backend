@@ -2,16 +2,18 @@
   "name": "pictcode-image-service",
   "version": "1.0.0",
   "description": "Retrieve or upload images from workspaces",
-  "main": "index.js",
+  "main": "src/delivery/http/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon main"
   },
   "author": "@PictCode",
   "license": "MIT",
   "devDependencies": {
+    "nodemon": "^2.0.7",
     "standard": "^16.0.3"
   },
   "dependencies": {
+    "dotenv": "^8.2.0",
     "fastify": "^3.12.0",
     "pg": "^8.5.1"
   }
