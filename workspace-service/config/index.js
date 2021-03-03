@@ -1,4 +1,4 @@
 require('dotenv').config()
 module.exports = {
-  PORT: process.env.PORT
+  WORKSPACE_PORT: process.env.WORKSPACE_PORT
 }

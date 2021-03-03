@@ -178,18 +178,20 @@ services:
       args:
         INSTALL_DEV: ${INSTALL_DEV-false}
   
-  workspace-service: 
-    ports: 
-      - "1337:1337"
+  workspace_service:
     env_file:
-  - .env
+      - .env
+    environment:
+      - SERVER_NAME=${DOMAIN?Variable not set}
+      - SERVER_HOST=https://${DOMAIN?Variable not set}
     networks:
       - ${TRAEFIK_PUBLIC_NETWORK?Variable not set}
       - default
-    volumes: 
-      - ./workspace-service:/srv
     build: 
       context: ./workspace-service
+      args:
+        INSTALL_DEV: ${INSTALL_DEV-false}
+
 
 volumes:
   app-db-data:
