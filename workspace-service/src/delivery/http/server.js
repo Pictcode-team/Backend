@@ -1,10 +1,16 @@
 const { WORKSPACE_PORT } = require('../../../config')
 const Fastify = require('fastify')
+const helmet = require('fastify-helmet')
+const cors = require('fastify-cors')
+
 const app = Fastify({ logger: true })
 
-app.get('/', async (request, reply) => {
-  return { test: 'OK' }
-})
+// Fastify plugins
+app.register(cors)
+app.register(helmet)
+
+// App plugins
+app.register(require('./routes/workspace'))
 
 app.listen(WORKSPACE_PORT, '0.0.0.0', function (err, address) {
   if (err) {
