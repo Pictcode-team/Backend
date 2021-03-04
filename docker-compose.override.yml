@@ -78,7 +78,7 @@ services:
     ports: 
       - "8001:8001"
     volumes:
-      - ./workspace-service:/srv
+      - ./workspace-service:/usr/src/app
 
 networks:
   traefik-public:
