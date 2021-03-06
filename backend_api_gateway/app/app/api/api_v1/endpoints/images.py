@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Any
 import uuid
 from datetime import datetime
 
@@ -9,13 +9,21 @@ from fastapi import (
     HTTPException
 )
 from fastapi.encoders import jsonable_encoder
+from fastapi.param_functions import Depends
 
 from app.schemas.images import ImageUploadResponse
+from app.api.deps import SenderImages
 
 router = APIRouter()
 
-@router.post("/images", response_model=ImageUploadResponse)
-async def upload_images(images: List[UploadFile] = File(...)) -> ImageUploadResponse:
+
+
+
+@router.post("/", response_model=ImageUploadResponse)
+async def upload_images(
+    # images: List[UploadFile] = File(...), 
+    images: SenderImages = Depends(SenderImages)
+    ) -> Any:
     uuid_workspace = uuid.uuid4()
     created_date = datetime.now()
     image_upload_response = ImageUploadResponse(

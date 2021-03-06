@@ -38,7 +38,7 @@ services:
 
   backend_api_gateway:
     ports:
-      - "8888:8888"
+      - "8000:8000"
     volumes:
       - ./backend_api_gateway/app:/app
     environment:
