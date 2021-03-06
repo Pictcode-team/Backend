@@ -82,6 +82,14 @@ class Settings(BaseSettings):
     FIRST_SUPERUSER_PASSWORD: str
     USERS_OPEN_REGISTRATION: bool = False
 
+    VALID_MIME_TYPES = [
+        'image/gif', 
+        'image/png', 
+        'image/jpeg', 
+        'image/bmp', 
+        'image/webp', 
+        'image/svg+xml'
+    ]
     class Config:
         case_sensitive = True
 
