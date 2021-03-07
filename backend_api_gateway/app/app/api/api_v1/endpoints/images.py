@@ -9,6 +9,7 @@ from fastapi import (
     HTTPException
 )
 from fastapi.encoders import jsonable_encoder
+from fastapi import Response
 from fastapi.param_functions import Depends
 
 from app.schemas.images import ImageUploadResponse
@@ -22,12 +23,13 @@ router = APIRouter()
 @router.post("/", response_model=ImageUploadResponse)
 async def upload_images(
     # images: List[UploadFile] = File(...), 
-    images: SenderImages = Depends(SenderImages)
+    response: Response,
+    images: SenderImages = Depends(SenderImages),
     ) -> Any:
-    uuid_workspace = uuid.uuid4()
-    created_date = datetime.now()
+    response_upload = images.response_upload
+    response.status_code = response_upload[0]
     image_upload_response = ImageUploadResponse(
-        id=uuid_workspace, 
-        created_date=created_date
+        images=images.images_names,
+        **response_upload[1], 
         )
     return image_upload_response

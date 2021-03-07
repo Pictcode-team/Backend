@@ -195,6 +195,7 @@ services:
 
 volumes:
   app-db-data:
+  node_modules:
 
 networks:
   traefik-public:
