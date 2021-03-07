@@ -1,9 +1,10 @@
 from uuid import UUID
 from datetime import datetime
-from typing import Optional
+from typing import Optional, List
 
 from pydantic import BaseModel
 
 class ImageUploadResponse(BaseModel):
-    id: UUID
-    created_date: datetime
+    uuid: str
+    created_date: datetime = datetime.now()
+    images: List[str]
