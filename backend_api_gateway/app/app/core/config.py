@@ -81,7 +81,25 @@ class Settings(BaseSettings):
     FIRST_SUPERUSER: EmailStr
     FIRST_SUPERUSER_PASSWORD: str
     USERS_OPEN_REGISTRATION: bool = False
-
+    WORKSPACE_PORT: Optional[int] = None
+    WORKSPACE_SERVICE_DNS: Optional[str] = None
+    
+    @validator('WORKSPACE_SERVICE_DNS', pre=True)
+    def get_workspace_service_dns(cls, v: str, values: Dict[str, Any]) -> str:
+        if values.get('WORKSPACE_PORT'):
+            return f"{v}:{values.get('WORKSPACE_PORT')}"
+        else:
+            return v
+    
+    MAX_IMAGES: Optional[int] = None
+    VALID_MIME_TYPES = [
+        'image/gif', 
+        'image/png', 
+        'image/jpeg', 
+        'image/bmp', 
+        'image/webp', 
+        'image/svg+xml'
+    ]
     class Config:
         case_sensitive = True
 

@@ -4,7 +4,7 @@
   "description": "Retrieve or upload images from workspaces",
   "main": "src/delivery/http/server.js",
   "scripts": {
-    "dev": "nodemon main"
+    "dev": "npx nodemon main"
   },
   "author": "@PictCode",
   "license": "MIT",
