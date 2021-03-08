@@ -33,7 +33,6 @@ module.exports = function s3Storage () {
     const objectOpts = { Bucket: AWS_S3_BUCKET, Key: `${image.uuid}/${image.name}`, Body: image.buffer }
     try {
       const result = await s3.send(new PutObjectCommand(objectOpts))
-      console.log(result)
       return result
     } catch (err) {
       console.error(err)
