@@ -1,4 +1,7 @@
+'use strict'
 const { MAX_IMAGES } = require('../../../../config')
+const { Images } = require('../../../useCases')
+const s3Storage = require('../../../lib/s3/storage')
 const multer = require('fastify-multer')
 const storage = multer.memoryStorage()
 const upload = multer({ storage: storage, fileFilter: require('../utils/file-filter') })
@@ -7,15 +10,8 @@ const fs = require('fs')
 
 async function workspacesRoutes (fastify, options) {
   fastify.post('/', { preHandler: upload.array('images', MAX_IMAGES) }, async (req, reply) => {
-    console.log(req.files)
-    for (let i = 0; i < req.files.length; i++) {
-      const file = req.files[i]
-      const data = file.buffer
-      fs.writeFile(file.originalname, data, 'base64', (err) => {
-        if (err) throw err;
-        console.log('Salvado')
-      })
-    }
+    const uploadProcess = await Images.uploadImages(s3Storage())(req.files, req.body.uuid)
+    console.log(uploadProcess)
     return { uuid: '3e3e2l3.23.23-2-3-23' }
   })
 }
