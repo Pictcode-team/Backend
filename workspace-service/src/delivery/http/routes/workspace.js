@@ -6,6 +6,7 @@ const upload = multer({ storage: storage, fileFilter: require('../utils/file-fil
 async function workspacesRoutes (fastify, options) {
   fastify.post('/', { preHandler: upload.array('images', MAX_IMAGES) }, async (req, reply) => {
     console.log(req.files)
+    console.log({ ...req.body })
     return { uuid: '3e3e2l3.23.23-2-3-23' }
   })
 }
