@@ -1,3 +1,4 @@
+'use strict'
 const { WORKSPACE_PORT } = require('../../../config')
 const Fastify = require('fastify')
 const helmet = require('fastify-helmet')
