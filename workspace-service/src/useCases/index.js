@@ -1,8 +1,7 @@
-const UploadImages = require('./images/upload-images')
-
+'use strict'
 module.exports = {
-  images: {
+  Images: {
     verifyImageType: require('./images/verify-image'),
-    uploadImages: UploadImages({ upload: true })
+    uploadImages: require('./images/upload-images')
   }
 }
