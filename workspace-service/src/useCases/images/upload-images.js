@@ -1,6 +1,5 @@
 'use strict'
 const uploadImages = (storage) => async (images, uuid) => {
-  console.log(storage)
   if (!Array.isArray(images)) {
     throw new Error('Images must be an array')
   }
