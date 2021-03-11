@@ -5,8 +5,6 @@ const s3Storage = require('../../../lib/s3/storage')
 const multer = require('fastify-multer')
 const storage = multer.memoryStorage()
 const upload = multer({ storage: storage, fileFilter: require('../utils/file-filter') })
-const fs = require('fs')
-
 
 async function workspacesRoutes (fastify, options) {
   fastify.post('/', { preHandler: upload.array('images', MAX_IMAGES) }, async (req, reply) => {

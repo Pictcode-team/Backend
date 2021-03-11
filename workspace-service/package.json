@@ -19,6 +19,8 @@
     "fastify-cors": "^5.2.0",
     "fastify-helmet": "^5.2.0",
     "fastify-multer": "^2.0.2",
-    "pg": "^8.5.1"
+    "pg": "^8.5.1",
+    "pg-hstore": "^2.3.3",
+    "sequelize": "^6.5.0"
   }
 }

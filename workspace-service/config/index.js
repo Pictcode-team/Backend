@@ -5,5 +5,10 @@ module.exports = {
   AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY,
   AWS_S3_REGION: process.env.AWS_S3_REGION,
   AWS_S3_BUCKET: process.env.AWS_S3_BUCKET,
-  MAX_IMAGES: process.env.MAX_IMAGES
+  MAX_IMAGES: process.env.MAX_IMAGES,
+  DB_HOST: process.env.DB_HOST,
+  DB_PORT: process.env.DB_PORT,
+  DB_USER: process.env.DB_USER,
+  DB_NAME: process.env.DB_NAME,
+  DB_PASSWORD: process.env.DB_PASSWORD
 }
