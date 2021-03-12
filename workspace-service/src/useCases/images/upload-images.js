@@ -16,8 +16,8 @@ const uploadImages = (storage) => async (images, uuid) => {
     for (const image of images) {
       image.name = `${uuid}-${image.originalname}`
       image.uuid = uuid
-      image.url = `${uuid}/${image.name}`
-      await storage.upload(image)
+      const url = await storage.upload(image)
+      image.url = url
     }
     return images
   } catch (err) {
