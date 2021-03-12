@@ -4,12 +4,10 @@ const { WORKSPACE_PORT } = require('../../../config')
 const db = require('../../lib/db')
 
 async function start () {
-  // Db connection
   try {
-    const dbInstance = await db()
-    // Init entities
-    const entities = require('../../entities')(dbInstance)
-    await entities.sync()
+    // Db connection
+    await db.authenticate()
+    app.log.info('App connected to db')
     await app.listen(WORKSPACE_PORT, '0.0.0.0')
   } catch (err) {
     app.log.error(err)
