@@ -19,7 +19,7 @@ const Workspace = sequelize.define('workspaces', {
     allowNull: true
   }
 }, { sequelize, timestamps: true, freezeTableName: true })
-Workspace.hasMany(Image)
-Image.belongsTo(Workspace)
+Workspace.hasMany(Image, { foreignKey: 'workspaceId' })
+Image.belongsTo(Workspace, { foreignKey: 'workspaceId' })
 
 module.exports = Workspace
