@@ -10,6 +10,7 @@ module.exports = {
     storeImages: require('./images/store-images')(ImagesModel)
   },
   WorkSpaces: {
-    createWorkspace: require('./workspaces/create-workspace')(WorkspaceModel)
+    createWorkspace: require('./workspaces/create-workspace')(WorkspaceModel),
+    retrieveInformation: require('./workspaces/retrieve-information')(WorkspaceModel)
   }
 }
