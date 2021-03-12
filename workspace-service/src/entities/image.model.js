@@ -11,6 +11,9 @@ const Image = sequelize.define('images', {
   url: {
     type: DataTypes.STRING,
     allowNull: false
+  },
+  workspaceId: {
+    type: DataTypes.INTEGER
   }
 }, { sequelize, timestamps: true, freezeTableName: true })
 

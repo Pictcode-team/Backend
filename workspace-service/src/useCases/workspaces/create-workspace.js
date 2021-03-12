@@ -10,13 +10,12 @@ module.exports = (model) => async (uuid, workspacename) => {
   try {
     const repeated = await model.findAll({ where: { identifier: uuid } })
     console.log(repeated)
-    if (repeated.length < 0) {
+    if (repeated.length === 0) {
       const result = await model.create({ identifier: uuid, workspacename })
-      return result
+      return result.workspaceId
     }
     throw new Error('Workspace already exists')
   } catch (err) {
     console.error(err)
-    return err
   }
 }
