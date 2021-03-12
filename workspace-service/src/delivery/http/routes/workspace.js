@@ -1,18 +1,28 @@
 'use strict'
 const { MAX_IMAGES } = require('../../../../config')
-const { Images } = require('../../../useCases')
-const s3Storage = require('../../../lib/s3/storage')
+const { Images, WorkSpaces } = require('../../../useCases')
 const multer = require('fastify-multer')
 const storage = multer.memoryStorage()
 const upload = multer({ storage: storage, fileFilter: require('../utils/file-filter') })
-const fs = require('fs')
-
 
 async function workspacesRoutes (fastify, options) {
   fastify.post('/', { preHandler: upload.array('images', MAX_IMAGES) }, async (req, reply) => {
-    const uploadProcess = await Images.uploadImages(s3Storage())(req.files, req.body.uuid)
-    console.log(uploadProcess)
-    return { uuid: '3e3e2l3.23.23-2-3-23' }
+    const workspaceCreation = await WorkSpaces.createWorkspace(req.body.uuid)
+    if (workspaceCreation) {
+      const uploadProcess = await Images.uploadImages(req.files, req.body.uuid)
+      if (uploadProcess) {
+        const registerImagesDb = await Images.storeImages(workspaceCreation, uploadProcess)
+        if (registerImagesDb) {
+          return { uuid: req.body.uuid }
+        }
+        reply.status(500)
+        return { error: 'Error while creating workspace image relationships' }
+      }
+      reply.status(500)
+      return { error: 'Error while uploading images' }
+    }
+    reply.status(500)
+    return { error: 'Workspace duplicated' }
   })
 }
 

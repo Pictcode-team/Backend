@@ -4,7 +4,8 @@
   "description": "Retrieve or upload images from workspaces",
   "main": "src/delivery/http/server.js",
   "scripts": {
-    "dev": "npx nodemon main"
+    "dev": "npx nodemon main",
+    "scripts:createdb": "npx nodemon ./src/scripts/startup-db.js"
   },
   "author": "@PictCode",
   "license": "MIT",
@@ -19,6 +20,9 @@
     "fastify-cors": "^5.2.0",
     "fastify-helmet": "^5.2.0",
     "fastify-multer": "^2.0.2",
-    "pg": "^8.5.1"
+    "pg": "^8.5.1",
+    "pg-hstore": "^2.3.3",
+    "sequelize": "^6.5.0",
+    "uuid": "^8.3.2"
   }
 }

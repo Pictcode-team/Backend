@@ -1,6 +1,5 @@
 'use strict'
 const uploadImages = (storage) => async (images, uuid) => {
-  console.log(storage)
   if (!Array.isArray(images)) {
     throw new Error('Images must be an array')
   }
@@ -13,14 +12,17 @@ const uploadImages = (storage) => async (images, uuid) => {
     throw new Error('UUID must be a string')
   }
 
-  for (const image of images) {
-    image.name = `${uuid}-${image.originalname}`
-    image.uuid = uuid
-    try {
+  try {
+    for (const image of images) {
+      image.name = `${uuid}-${image.originalname}`
+      image.uuid = uuid
+      image.url = `${uuid}/${image.name}`
       await storage.upload(image)
-    } catch (err) {
-      console.error(err)
     }
+    return images
+  } catch (err) {
+    console.error(err)
+    return err
   }
 }
 
