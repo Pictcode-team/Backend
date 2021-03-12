@@ -1,4 +1,5 @@
 'use strict'
+const { WorkSpaces } = require('../')
 const uploadImages = (storage) => async (images, uuid) => {
   if (!Array.isArray(images)) {
     throw new Error('Images must be an array')
@@ -12,14 +13,16 @@ const uploadImages = (storage) => async (images, uuid) => {
     throw new Error('UUID must be a string')
   }
 
-  for (const image of images) {
-    image.name = `${uuid}-${image.originalname}`
-    image.uuid = uuid
-    try {
+  try {
+    await WorkSpaces.createWorkspace({ uuid, workspacename: null })
+    for (const image of images) {
+      image.name = `${uuid}-${image.originalname}`
+      image.uuid = uuid
       await storage.upload(image)
-    } catch (err) {
-      console.error(err)
     }
+  } catch (err) {
+    console.error(err)
+    return err
   }
 }
 
