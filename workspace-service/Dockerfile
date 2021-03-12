@@ -1,4 +1,4 @@
-FROM node:lts as deps
+FROM node:lts
 
 WORKDIR /app
 

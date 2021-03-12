@@ -180,7 +180,7 @@ services:
   
   workspace_service:
     env_file:
-      - .env
+      - ./workspace-service/.env
     environment:
       - SERVER_NAME=${DOMAIN?Variable not set}
       - SERVER_HOST=https://${DOMAIN?Variable not set}
@@ -191,6 +191,8 @@ services:
       context: ./workspace-service
       args:
         INSTALL_DEV: ${INSTALL_DEV-false}
+    volumes: 
+      - ./workspace-service:/usr/src/app
 
 
 volumes:
