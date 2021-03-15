@@ -1,22 +1,35 @@
+'use strict'
 const { MAX_IMAGES } = require('../../../../config')
+const { Images, WorkSpaces } = require('../../../useCases')
 const multer = require('fastify-multer')
 const storage = multer.memoryStorage()
 const upload = multer({ storage: storage, fileFilter: require('../utils/file-filter') })
-const fs = require('fs')
-
 
 async function workspacesRoutes (fastify, options) {
   fastify.post('/', { preHandler: upload.array('images', MAX_IMAGES) }, async (req, reply) => {
-    console.log(req.files)
-    for (let i = 0; i < req.files.length; i++) {
-      const file = req.files[i]
-      const data = file.buffer
-      fs.writeFile(file.originalname, data, 'base64', (err) => {
-        if (err) throw err;
-        console.log('Salvado')
-      })
+    const workspaceCreation = await WorkSpaces.createWorkspace(req.body.uuid)
+    if (workspaceCreation) {
+      const uploadProcess = await Images.uploadImages(req?.files, req.body?.uuid)
+      if (uploadProcess) {
+        const registerImagesDb = await Images.storeImages(workspaceCreation, uploadProcess)
+        if (registerImagesDb) {
+          return { uuid: req.body.uuid }
+        }
+        reply.status(500)
+        return { error: 'Error while creating workspace image relationships' }
+      }
+      reply.status(500)
+      return { error: 'Error while uploading images' }
     }
-    return { uuid: '3e3e2l3.23.23-2-3-23' }
+    reply.status(500)
+    return { error: 'Workspace duplicated' }
+  })
+
+  const getWorkspaceInfoSchema = { schema: { params: { type: 'object', required: ['uuid'], properties: { uuid: { type: 'string' } } } } }
+  fastify.get('/:uuid', getWorkspaceInfoSchema, async (req, reply) => {
+    console.log(req.params?.uuid)
+    const results = await WorkSpaces.retrieveInformation(req.params?.uuid)
+    return results
   })
 }
 
