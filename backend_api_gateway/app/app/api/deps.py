@@ -1,5 +1,6 @@
 
 import requests
+from uuid import UUID
 from typing import Generator, List, Dict, Tuple
 from fastapi import Depends, HTTPException, status, UploadFile, File
 
@@ -50,3 +51,13 @@ class SenderImages:
             files=images_bytes
         )
         return (request.status_code, request.json())
+
+
+class ReceiveImages:
+    def __init__(self):
+        self.url: str = settings.WORKSPACE_SERVICE
+
+    def download_images(self, uuid: UUID):
+        url = f'{self.url}/{str(uuid)}'
+        response = requests.get(url)
+        return (response.status_code, response.json())

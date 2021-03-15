@@ -1,13 +1,14 @@
 from typing import Any
-
+from uuid import UUID
 from fastapi import (
     APIRouter,
-    Response
+    Response,
+    Path,
 )
 from fastapi.param_functions import Depends
 
-from app.schemas.images import ImageUploadResponse
-from app.api.deps import SenderImages
+from app.schemas.images import ImageUploadResponse, ImagesUrlsResponse
+from app.api.deps import SenderImages, ReceiveImages
 
 router = APIRouter()
 
@@ -25,3 +26,14 @@ async def upload_images(
         **response_upload[1],
     )
     return image_upload_response
+
+
+@router.get("/{uuid}", response_model=ImagesUrlsResponse)
+async def download_images(
+    uuid: UUID = Path(..., title="The UUID of the workspace to consult the images."),
+    receiver:  ReceiveImages = Depends(ReceiveImages)
+) -> Any:
+    images = ImagesUrlsResponse(
+        images=["https://pydantic-docs.helpmanual.io/usage/types/#urls"]
+    )
+    return images
