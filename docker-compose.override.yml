@@ -72,6 +72,14 @@ services:
         INSTALL_DEV: ${INSTALL_DEV-true}
         INSTALL_JUPYTER: ${INSTALL_JUPYTER-true}
 
+  backend_metrics:
+    volumes:
+      - ./metrics:/code/metrics
+    ports:
+      - "5000:5000"
+
+
+
   workspace_service:
     environment:
       - SERVER_HOST=http://${DOMAIN?Variable not set}
