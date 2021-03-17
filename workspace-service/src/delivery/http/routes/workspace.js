@@ -7,22 +7,15 @@ const upload = multer({ storage: storage, fileFilter: require('../utils/file-fil
 
 async function workspacesRoutes (fastify, options) {
   fastify.post('/', { preHandler: upload.array('images', MAX_IMAGES) }, async (req, reply) => {
-    const workspaceCreation = await WorkSpaces.createWorkspace(req.body.uuid)
-    if (workspaceCreation) {
-      const uploadProcess = await Images.uploadImages(req?.files, req.body?.uuid)
-      if (uploadProcess) {
-        const registerImagesDb = await Images.storeImages(workspaceCreation, uploadProcess)
-        if (registerImagesDb) {
-          return { uuid: req.body.uuid }
-        }
-        reply.status(500)
-        return { error: 'Error while creating workspace image relationships' }
-      }
-      reply.status(500)
-      return { error: 'Error while uploading images' }
+    const workspace = await WorkSpaces.createWorkspace()
+    const uploadProcess = await Images.uploadImages(req?.files, workspace.uuid)
+    const registerImagesDb = await Images.storeImages(workspace.workspaceId, uploadProcess)
+    if (registerImagesDb) {
+      reply.code(201)
+      return { uuid: workspace.uuid }
     }
-    reply.status(500)
-    return { error: 'Workspace duplicated' }
+    reply.code(500)
+    return { error: 'Images records where partially created' }
   })
 
   const getWorkspaceInfoSchema = { schema: { params: { type: 'object', required: ['uuid'], properties: { uuid: { type: 'string' } } } } }

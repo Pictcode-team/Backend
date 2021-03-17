@@ -1,21 +1,10 @@
-const { validate } = require('uuid')
-module.exports = (model) => async (uuid, workspacename) => {
-  if (!uuid) {
-    throw new Error('Missing parameters')
+const { v4 } = require('uuid')
+module.exports = (model) => async (workspacename) => {
+  const uuid = v4()
+  const repeated = await model.findAll({ where: { identifier: uuid } })
+  if (repeated.length === 0) {
+    const result = await model.create({ identifier: uuid, workspacename })
+    return { uuid: uuid, workspaceId: result.workspaceId }
   }
-  if (!validate(uuid)) {
-    throw new Error('UUID is not valid')
-  }
-
-  try {
-    const repeated = await model.findAll({ where: { identifier: uuid } })
-    console.log(repeated)
-    if (repeated.length === 0) {
-      const result = await model.create({ identifier: uuid, workspacename })
-      return result.workspaceId
-    }
-    throw new Error('Workspace already exists')
-  } catch (err) {
-    console.error(err)
-  }
+  throw new Error('Workspace already exists')
 }
