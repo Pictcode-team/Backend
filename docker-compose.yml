@@ -127,7 +127,7 @@ services:
         - traefik.http.services.${STACK_NAME?Variable not set}-backend_api_gateway.loadbalancer.server.port=80
   
   backend_metrics:
-    image: '${DOCKER_IMAGE_BACKEND?Variable not set}:${TAG-latest}'
+    image: '${DOCKER_IMAGE_BACKEND_METRICS?Variable not set}:${TAG-latest}'
     depends_on:
       - db
     build:
