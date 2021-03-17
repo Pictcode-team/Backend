@@ -12,18 +12,13 @@ const uploadImages = (storage) => async (images, uuid) => {
     throw new Error('UUID must be a string')
   }
 
-  try {
-    for (const image of images) {
-      image.name = `${uuid}-${image.originalname}`
-      image.uuid = uuid
-      const url = await storage.upload(image)
-      image.url = url
-    }
-    return images
-  } catch (err) {
-    console.error(err)
-    return err
+  for (const image of images) {
+    image.name = `${uuid}-${image.originalname}`
+    image.uuid = uuid
+    const url = await storage.upload(image)
+    image.url = url
   }
+  return images
 }
 
 module.exports = uploadImages
