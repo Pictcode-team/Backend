@@ -11,6 +11,6 @@ module.exports = {
   },
   WorkSpaces: {
     createWorkspace: require('./workspaces/create-workspace')(WorkspaceModel),
-    retrieveInformation: require('./workspaces/retrieve-information')(WorkspaceModel)
+    retrieveInformation: require('./workspaces/retrieve-information')({ Workspace: WorkspaceModel, Image: ImagesModel })
   }
 }
