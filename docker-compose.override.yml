@@ -32,10 +32,6 @@ services:
     ports:
       - "5050:5050"
 
-  flower:
-    ports:
-      - "5555:5555"
-
   backend_api_gateway:
     ports:
       - "8000:8000"
@@ -56,21 +52,15 @@ services:
       - traefik.enable=true
       - traefik.constraint-label-stack=${TRAEFIK_TAG?Variable not set}
       - traefik.http.routers.${STACK_NAME?Variable not set}-backend_api_gateway-http.rule=PathPrefix(`/api`) || PathPrefix(`/docs`) || PathPrefix(`/redoc`)
-      - traefik.http.services.${STACK_NAME?Variable not set}-backend_api_gateway.loadbalancer.server.port=80
+      - traefik.http.services.${STACK_NAME?Variable not set}-backend_api_gateway.loadbalancer.server.port=8000
 
-  celeryworker:
+  backend_metrics:
     volumes:
-      - ./backend_api_gateway/app:/app
-    environment:
-      - RUN=celery worker -A app.worker -l info -Q main-queue -c 1
-      - JUPYTER=jupyter lab --ip=0.0.0.0 --allow-root --NotebookApp.custom_display_url=http://127.0.0.1:8888
-      - SERVER_HOST=http://${DOMAIN?Variable not set}
-    build:
-      context: ./backend_api_gateway
-      dockerfile: celeryworker.dockerfile
-      args:
-        INSTALL_DEV: ${INSTALL_DEV-true}
-        INSTALL_JUPYTER: ${INSTALL_JUPYTER-true}
+      - ./metrics:/code/metrics
+    ports:
+      - "5000:5000"
+
+
 
   workspace_service:
     environment:
@@ -79,6 +69,11 @@ services:
       - "8001:8001"
     volumes:
       - ./workspace-service:/app
+      - node_modules:/app/node_modules
+
+volumes:
+  app-db-data:
+  node_modules:
 
 networks:
   traefik-public:
