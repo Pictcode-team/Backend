@@ -38,7 +38,7 @@ class SenderImages:
     @property
     def response_upload(self) -> Tuple[int, Dict[str, str]]:
         images_bytes = [
-            (  # 'images',
+            ( 'images',
                 (
                     image.filename,
                     image.file.read(),
