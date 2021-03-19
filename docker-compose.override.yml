@@ -63,13 +63,20 @@ services:
 
 
   workspace_service:
+    env_file:
+      - ./workspace-service/.env
     environment:
       - SERVER_HOST=http://${DOMAIN?Variable not set}
     ports: 
       - "8001:8001"
-    volumes:
-      - ./workspace-service:/app
-      - node_modules:/app/node_modules
+    # volumes:
+    #   - node_modules:/app/node_modules
+    #   - ./workspace-service/src:/app/src
+    build: 
+      context: ./workspace-service
+      args:
+        INSTALL_DEV: ${INSTALL_DEV-false}
+
 
 volumes:
   app-db-data:

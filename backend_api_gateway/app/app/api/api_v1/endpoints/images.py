@@ -22,7 +22,6 @@ async def upload_images(
     response_upload = images.response_upload
     response.status_code = response_upload[0]
     image_upload_response = ImageUploadResponse(
-        images=images.images_names,
         **response_upload[1],
     )
     return image_upload_response

@@ -2,7 +2,7 @@
     "name": "FastApi env",
     "dockerComposeFile": [
         "../docker-compose.yml",
-        "../docker-compose.override.yml",
+        // "../docker-compose.override.yml",
     ],
     "service": "backend_api_gateway",
     "workspaceFolder": "/app/",
