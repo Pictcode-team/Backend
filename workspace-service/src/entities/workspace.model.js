@@ -20,8 +20,7 @@ const Workspace = sequelize.define('workspaces', {
   },
   expirationDate: {
     type: DataTypes.DATE,
-    allowNull: false,
-    default: Date.now()
+    allowNull: false
   }
 }, { sequelize, timestamps: true, freezeTableName: true })
 Workspace.hasMany(Image, { foreignKey: 'workspaceId' })

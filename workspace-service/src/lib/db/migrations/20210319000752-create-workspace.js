@@ -18,8 +18,7 @@ module.exports = {
       },
       expirationDate: {
         type: Sequelize.DATE,
-        allowNull: false,
-        default: Date.now()
+        allowNull: false
       },
       createdAt: {
         allowNull: false,
