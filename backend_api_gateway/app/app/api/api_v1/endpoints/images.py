@@ -1,4 +1,5 @@
 from typing import Any
+import uuid
 from uuid import UUID
 from fastapi import (
     APIRouter,
@@ -23,6 +24,7 @@ async def upload_images(
     response.status_code = response_upload[0]
     image_upload_response = ImageUploadResponse(
         **response_upload[1],
+        # uuid=uuid.uuid4()
     )
     return image_upload_response
 

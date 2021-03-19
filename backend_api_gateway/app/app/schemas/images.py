@@ -6,7 +6,7 @@ from pydantic import BaseModel, AnyHttpUrl
 
 
 class ImageUploadResponse(BaseModel):
-    uuid: str
+    uuid: UUID
     created_date: datetime = datetime.now()
     # images: List[str]
 
