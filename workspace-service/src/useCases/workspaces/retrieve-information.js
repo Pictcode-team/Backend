@@ -12,7 +12,7 @@ const getInformation = (model) => async (uuid) => {
   }
 
   const query = {
-    attributes: ['identifier', 'workspacename'],
+    attributes: ['identifier', 'workspacename', 'expirationDate'],
     where: {
       identifier: uuid
     },
@@ -23,8 +23,13 @@ const getInformation = (model) => async (uuid) => {
     }
   }
   const workspace = await model.Workspace.findOne(query)
-
-  return workspace
+  if (workspace) {
+    const expired = Date.now() > Date.parse(workspace.dataValues.expirationDate)
+    if (expired) {
+      return { uuid, expired: true }
+    }
+  }
+  return { expired: false, ...workspace.dataValues }
 }
 
 module.exports = getInformation
