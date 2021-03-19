@@ -38,13 +38,13 @@ class SenderImages:
     @property
     def response_upload(self) -> Tuple[int, Dict[str, str]]:
         images_bytes = [
-            ('images',
+            (  # 'images',
                 (
                     image.filename,
                     image.file.read(),
                     image.content_type
                 ),
-             ) for image in self.images
+            ) for image in self.images
         ]
         request = requests.post(
             settings.WORKSPACE_SERVICE_DNS,
