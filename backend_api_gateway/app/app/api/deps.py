@@ -55,7 +55,7 @@ class SenderImages:
 
 class ReceiveImages:
     def __init__(self):
-        self.url: str = settings.WORKSPACE_SERVICE
+        self.url: str = settings.WORKSPACE_SERVICE_DNS
 
     def download_images(self, uuid: UUID):
         url = f'{self.url}/{str(uuid)}'

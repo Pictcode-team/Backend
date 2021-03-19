@@ -8,7 +8,7 @@ from fastapi import (
 )
 from fastapi.param_functions import Depends
 
-from app.schemas.images import ImageUploadResponse, ImagesUrlsResponse
+from app.schemas.images import ImageUploadResponse, ImagesUrlsResponse, ImagesExpiredDateDownload
 from app.api.deps import SenderImages, ReceiveImages
 
 router = APIRouter()
@@ -29,12 +29,20 @@ async def upload_images(
     return image_upload_response
 
 
-@router.get("/{uuid}", response_model=ImagesUrlsResponse)
+@router.get("/{uuid}")
 async def download_images(
+    response: Response,
     uuid: UUID = Path(..., title="The UUID of the workspace to consult the images."),
     receiver:  ReceiveImages = Depends(ReceiveImages)
 ) -> Any:
-    images = ImagesUrlsResponse(
-        images=["https://pydantic-docs.helpmanual.io/usage/types/#urls"]
-    )
+    response_download = receiver.download_images(uuid=uuid)
+    if not response_download[1]['expired']:
+        images = ImagesUrlsResponse(
+            **response_download[1]
+        )
+    else:
+        images = ImagesExpiredDateDownload(
+            **response_download[1]
+        )
+    response.status_code = response_download[0]
     return images
