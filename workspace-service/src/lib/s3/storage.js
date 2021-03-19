@@ -30,7 +30,12 @@ module.exports = function s3Storage () {
     }
 
     const s3 = connect()
-    const objectOpts = { Bucket: AWS_S3_BUCKET, Key: `${image.uuid}/${image.name}`, Body: image.buffer }
+    const objectOpts = {
+      Bucket: AWS_S3_BUCKET,
+      Key: `${image.uuid}/${image.name}`,
+      Body: image.buffer,
+      Expires: new Date(Date.now() + (60 * 60 * 1000))
+    }
     try {
       await s3.send(new PutObjectCommand(objectOpts))
       return `https://${AWS_S3_BUCKET}.s3.${AWS_S3_REGION}.amazonaws.com/${image.uuid}/${image.name}`

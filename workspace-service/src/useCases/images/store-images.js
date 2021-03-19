@@ -11,7 +11,7 @@ const storeImages = (model) => async (workspaceId, images) => {
   if (images.length === 0) {
     throw new Error('images array must contain at least one element')
   }
-  
+
   for (const image of images) {
     await model.create({ workspaceId: workspaceId, url: image.url })
   }
