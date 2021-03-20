@@ -5,12 +5,16 @@
   "main": "src/delivery/http/server.js",
   "scripts": {
     "dev": "npx nodemon main",
-    "scripts:createdb": "npx nodemon ./src/scripts/startup-db.js"
+    "start": "NODE_ENV=production node src/delivery/http/server.js",
+    "db:migrate": "npx sequelize-cli db:migrate",
+    "db:rollback": "npx sequelize-cli db:migrate:undo",
+    "db:create": "npx sequelize-cli db:create"
   },
   "author": "@PictCode",
   "license": "MIT",
   "devDependencies": {
     "nodemon": "^2.0.7",
+    "sequelize-cli": "^6.2.0",
     "standard": "^16.0.3"
   },
   "dependencies": {

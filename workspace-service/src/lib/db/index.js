@@ -13,6 +13,5 @@ if (!connection) {
     dialect: 'postgres'
   })
 }
-// connection.sync({ alter: true })
 
 module.exports = connection
