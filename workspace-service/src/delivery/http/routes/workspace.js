@@ -9,7 +9,6 @@ async function workspacesRoutes (fastify, options) {
   const createWorkspaceSchema = {
     description: 'Upload images and create a new workspace',
     tags: ['Workspaces'],
-    consumes: ['multipart/form-data'],
     response: {
       201: {
         description: 'Succesfully created',
