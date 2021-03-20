@@ -6,7 +6,22 @@ const storage = multer.memoryStorage()
 const upload = multer({ storage: storage, fileFilter: require('../utils/file-filter') })
 
 async function workspacesRoutes (fastify, options) {
-  fastify.post('/', { preHandler: upload.array('images', MAX_IMAGES) }, async (req, reply) => {
+  const createWorkspaceSchema = {
+    description: 'Upload images and create a new workspace',
+    tags: ['Workspaces'],
+    consumes: ['multipart/form-data'],
+    response: {
+      201: {
+        description: 'Succesfully created',
+        type: 'object',
+        properties: {
+          uuid: { type: 'string', format: 'uuid' }
+        }
+      }
+    }
+  }
+
+  fastify.post('/', { schema: createWorkspaceSchema, preHandler: upload.array('images', MAX_IMAGES) }, async (req, reply) => {
     const workspace = await WorkSpaces.createWorkspace()
     const uploadProcess = await Images.uploadImages(req?.files, workspace.uuid)
     const registerImagesDb = await Images.storeImages(workspace.workspaceId, uploadProcess)
@@ -18,7 +33,36 @@ async function workspacesRoutes (fastify, options) {
     return { error: 'Images records where partially created' }
   })
 
-  const getWorkspaceInfoSchema = { schema: { params: { type: 'object', required: ['uuid'], properties: { uuid: { type: 'string' } } } } }
+  const getWorkspaceInfoSchema = {
+    schema: {
+      description: 'Retrieve information about workspaces',
+      tags: ['Workspaces'],
+      params: {
+        type: 'object',
+        required: ['uuid'],
+        properties: { uuid: { type: 'string', format: 'uuid' } }
+      },
+      response: {
+        200: {
+          description: 'Returns a complete workspace with the images',
+          type: 'object',
+          properties: {
+            identifier: { type: 'string', format: 'uuid' },
+            workspacename: { type: 'string' },
+            images: {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  url: { type: 'string' }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
   fastify.get('/:uuid', getWorkspaceInfoSchema, async (req, reply) => {
     console.log(req.params?.uuid)
     const results = await WorkSpaces.retrieveInformation(req.params?.uuid)
