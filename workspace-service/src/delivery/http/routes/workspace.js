@@ -58,13 +58,25 @@ async function workspacesRoutes (fastify, options) {
               }
             }
           }
+        },
+        404: {
+          description: 'Response when the workspace has expired',
+          type: 'object',
+          properties: {
+            message: { type: 'string' }
+          }
         }
       }
     }
   }
+
   fastify.get('/:uuid', getWorkspaceInfoSchema, async (req, reply) => {
     console.log(req.params?.uuid)
     const results = await WorkSpaces.retrieveInformation(req.params?.uuid)
+    if (results.expired) {
+      reply.code(404)
+      return { message: 'workspace expired' }
+    }
     return results
   })
 }
