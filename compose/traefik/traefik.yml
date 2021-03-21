@@ -33,16 +33,16 @@ http:
         - web-secure
       middlewares:
         - csrf
-      service: pgadmin
+      service: backend_api_gateway
       tls:
         # https://docs.traefik.io/master/routing/routers/#certresolver
         certResolver: letsencrypt
     
-    api-gateway-secure-router:
+    pgadmin-router:
       rule: "Host(`pgadmin.pictocode.xyz`)"
       entryPoints:
         - web-secure
-      service: backend_api_gateway
+      service: pgadmin
       tls:
         certResolver: letsencrypt
 
