@@ -3,6 +3,8 @@ services:
 
   proxy:
     image: '${DOCKER_IMAGE_REVESER_PROXY?Variable not set}:${TAG-latest}'
+    env_file:
+      - .env
     build:
       context: .
       dockerfile: ./compose/traefik/Dockerfile

@@ -28,7 +28,7 @@ certificatesResolvers:
 http:
   routers:
     web-secure-router:
-      rule: "Host(`pictocode.xyz`)  || Host(`www.pictocode.xyz`)"
+      rule: Host(`{{ env "DOMAIN" }}`) || Host(`www.{{ env "DOMAIN" }}`)
       entryPoints:
         - web-secure
       middlewares:
@@ -39,7 +39,7 @@ http:
         certResolver: letsencrypt
     
     pgadmin-router:
-      rule: "Host(`pgadmin.pictocode.xyz`)"
+      rule: Host(`pgadmin.{{ env "DOMAIN" }}`)
       entryPoints:
         - web-secure
       service: pgadmin
