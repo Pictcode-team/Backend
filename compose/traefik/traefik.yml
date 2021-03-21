@@ -1,0 +1,71 @@
+log:
+  level: INFO
+
+entryPoints:
+  web:
+    # http
+    address: ":80"
+    http:
+      # https://docs.traefik.io/routing/entrypoints/#entrypoint
+      redirections:
+        entryPoint:
+          to: web-secure
+
+  web-secure:
+    # https
+    address: ":443"
+
+certificatesResolvers:
+  letsencrypt:
+    # https://docs.traefik.io/master/https/acme/#lets-encrypt
+    acme:
+      email: "ricardo.ares1989@gmail.com"
+      storage: /etc/traefik/acme/acme.json
+      # https://docs.traefik.io/master/https/acme/#httpchallenge
+      httpChallenge:
+        entryPoint: web
+
+http:
+  routers:
+    web-secure-router:
+      rule: "Host(`pictocode.xyz`)  || Host(`www.pictocode.xyz`)"
+      entryPoints:
+        - web-secure
+      middlewares:
+        - csrf
+      service: pgadmin
+      tls:
+        # https://docs.traefik.io/master/routing/routers/#certresolver
+        certResolver: letsencrypt
+    
+    api-gateway-secure-router:
+      rule: "Host(`pgadmin.pictocode.xyz`)"
+      entryPoints:
+        - web-secure
+      service: backend_api_gateway
+      tls:
+        certResolver: letsencrypt
+
+  middlewares:
+    csrf:
+      # https://docs.traefik.io/master/middlewares/headers/#hostsproxyheaders
+      # https://docs.djangoproject.com/en/dev/ref/csrf/#ajax
+      headers:
+        hostsProxyHeaders: ["X-CSRFToken"]
+
+  services:
+    pgadmin:
+      loadBalancer:
+        servers:
+          - url: http://pgadmin:5050
+            
+    backend_api_gateway:
+      loadBalancer:
+        servers:
+          - url: http://backend_api_gateway:8000
+
+providers:
+  # https://docs.traefik.io/master/providers/file/
+  file:
+    filename: /etc/traefik/traefik.yml
+    watch: true
