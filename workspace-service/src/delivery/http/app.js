@@ -12,6 +12,7 @@ app.register(cors)
 app.register(helmet, {
   contentSecurityPolicy: false
 })
+// app.register(require('fastify-multipart'))
 app.register(multerMultipart)
 
 // App plugins
