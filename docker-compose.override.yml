@@ -8,10 +8,11 @@ services:
   backend_api_gateway:
     ports:
       - "8000:8000"
+      - "8888:8888"
     volumes:
       - ./backend_api_gateway/app:/app
     environment:
-      - JUPYTER=jupyter lab --ip=0.0.0.0 --allow-root --NotebookApp.custom_display_url=http://127.0.0.1:8888
+      - JUPYTER=jupyter lab --ip=0.0.0.0 --allow-root --NotebookApp.custom_display_url=http://127.0.0.1:8000
       - SERVER_HOST=http://${DOMAIN?Variable not set}
     build:
       context: ./backend_api_gateway
