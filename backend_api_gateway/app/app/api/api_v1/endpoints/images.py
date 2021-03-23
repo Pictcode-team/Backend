@@ -36,7 +36,7 @@ async def download_images(
     receiver:  ReceiveImages = Depends(ReceiveImages)
 ) -> Any:
     response_download = receiver.download_images(uuid=uuid)
-    if not response_download[1]['expired']:
+    if response_download[0] == 200:
         images = ImagesUrlsResponse(
             **response_download[1]
         )

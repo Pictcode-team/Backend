@@ -10,16 +10,16 @@ class ImageUploadResponse(BaseModel):
     created_date: datetime = datetime.now()
     # images: List[str]
 
+
 class ImagesExpiredDateDownload(BaseModel):
-    expired: bool
-    uuid: UUID
+    message: str
 
 
 class ImagesUrl(BaseModel):
     url: AnyHttpUrl
-    
+
+
 class ImagesUrlsResponse(BaseModel):
     images: List[ImagesUrl]
     workspacename: Optional[str]
-    expired: bool
-    expirationDate: datetime
+    identifier: UUID

@@ -90,6 +90,8 @@ services:
       context: ./workspace-service
       args:
         INSTALL_DEV: ${INSTALL_DEV-false}
+    volumes: 
+      - ./workspace-service:/usr/src/app
 
 volumes:
   app-db-data: {}
