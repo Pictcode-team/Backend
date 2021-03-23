@@ -46,7 +46,7 @@ async def download_images(
         )
     response.status_code = response_download[0]
     response.headers['Content-Type'] = 'application/json'
-    response.headers['Access-Control-Allow-Credentials'] = True
+    response.headers['Access-Control-Allow-Credentials'] = "true"
     response.headers["Access-Control-Allow-Origin"] = "*"
     response.headers["Access-Control-Allow-Methods"] = "GET,OPTIONS,PATCH,DELETE,POST,PUT",
     response.headers["Access-Control-Allow-Headers"] = "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version"
