@@ -47,4 +47,6 @@ async def download_images(
     response.status_code = response_download[0]
     response.headers['Access-Control-Allow-Origin'] = '*'
     response.headers['Access-Control-Allow-Methods'] = 'POST, GET, DELETE, OPTIONS'
+    response.headers['Access-Control-Allow-Headers'] = 'Content-Type,X-Amz-Date,Authorization',
+
     return images
