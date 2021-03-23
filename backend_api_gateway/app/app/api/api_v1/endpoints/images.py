@@ -29,7 +29,7 @@ async def upload_images(
     return image_upload_response
 
 
-@router.get("/{uuid}")
+@router.post("/{uuid}")
 async def download_images(
     response: Response,
     uuid: UUID = Path(..., title="The UUID of the workspace to consult the images."),
@@ -45,9 +45,9 @@ async def download_images(
             **response_download[1]
         )
     response.status_code = response_download[0]
-    response.headers['Content-Type'] = 'application/json'
-    response.headers['Access-Control-Allow-Credentials'] = "true"
-    response.headers["Access-Control-Allow-Origin"] = "*"
-    response.headers["Access-Control-Allow-Methods"] = "GET,OPTIONS,PATCH,DELETE,POST,PUT",
-    response.headers["Access-Control-Allow-Headers"] = "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version"
+    # response.headers['Content-Type'] = 'application/json'
+    # response.headers['Access-Control-Allow-Credentials'] = "true"
+    # response.headers["Access-Control-Allow-Origin"] = "*"
+    # response.headers["Access-Control-Allow-Methods"] = "GET,OPTIONS,PATCH,DELETE,POST,PUT",
+    # response.headers["Access-Control-Allow-Headers"] = "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version"
     return images
