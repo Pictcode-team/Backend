@@ -12,7 +12,6 @@ async function workspacesRoutes (fastify, options) {
     preHandler: upload.array('images', Number.parseInt(MAX_IMAGES))
   },
   async (req, reply) => {
-    console.log(MAX_IMAGES)
     const workspace = await WorkSpaces.createWorkspace()
     const uploadProcess = await Images.uploadImages(req?.files, workspace.uuid)
     const registerImagesDb = await Images.storeImages(workspace.workspaceId, uploadProcess)

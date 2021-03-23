@@ -1,3 +1,4 @@
+// const { MAX_IMAGES } = require('../../../config')
 const Fastify = require('fastify')
 const helmet = require('fastify-helmet')
 const cors = require('fastify-cors')
@@ -12,7 +13,11 @@ app.register(cors)
 app.register(helmet, {
   contentSecurityPolicy: false
 })
-// app.register(require('fastify-multipart'))
+// app.register(require('fastify-multipart'), {
+//   limits: {
+//     files: MAX_IMAGES
+//   }
+// })
 app.register(multerMultipart)
 
 // App plugins

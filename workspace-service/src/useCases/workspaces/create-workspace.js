@@ -4,8 +4,6 @@ module.exports = (model) => async (workspacename) => {
   const repeated = await model.findAll({ where: { identifier: uuid } })
   if (repeated.length === 0) {
     const expirationDate = new Date(Date.now() + (2 * 60 * 1000))
-    console.log(new Date())
-    console.log(expirationDate)
     const result = await model.create({ identifier: uuid, workspacename, expirationDate })
     return { uuid: uuid, workspaceId: result.workspaceId }
   }
